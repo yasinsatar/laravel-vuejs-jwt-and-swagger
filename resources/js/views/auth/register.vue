@@ -121,8 +121,8 @@ export default {
         submitHandler() {
             axios
                 .post("api/auth/register", { ...this.form })
-                .then((res) => {
-                    console.log(res);
+                .then((res) => {     
+                    localStorage.setItem("token",res.data.access_token);
                 })
                 .catch((err) => {
                     console.log(err);
