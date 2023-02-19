@@ -75,6 +75,7 @@ export default {
                 .post("api/auth/login", { ...this.form })
                 .then((res) => {
                     localStorage.setItem("token",res.data.access_token);
+                    window.location.href = import.meta.env.VITE_APP_URL+'/home';
                 })
                 .catch((err) => {
                     console.log(err);
