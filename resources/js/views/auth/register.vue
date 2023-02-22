@@ -1,5 +1,11 @@
 <template>
-    <div>
+        <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Register</div>
+
+                    <div class="card-body">
         <form @submit.prevent="submitHandler">
             <div class="row mb-3">
                 <label for="name" class="col-md-4 col-form-label text-md-end"
@@ -100,6 +106,10 @@
                 </div>
             </div>
         </form>
+     </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 <script>
