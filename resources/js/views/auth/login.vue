@@ -7,6 +7,22 @@
 
                     <div class="card-body">
                         <form @submit.prevent="submitHandler">
+                            <div class="row mb-3 text-center">
+                                <span
+                                    class="invalid-feedback"
+                                    :class="{
+                                        'd-block':
+                                        !errors.hasOwnProperty('errors')
+                                    }"
+                                    role="alert"
+                                >
+                                    <strong
+                                        v-if="!errors.hasOwnProperty('errors')"
+                                    >
+                                        {{ errors.message }}</strong
+                                    >
+                                </span>
+                            </div>
                             <div class="row mb-3">
                                 <label
                                     for="email"
@@ -26,8 +42,22 @@
                                         autofocus
                                     />
 
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ message }}</strong>
+                                    <span
+                                        class="invalid-feedback"
+                                        :class="{
+                                            'd-block':
+                                                errors.hasOwnProperty('errors'),
+                                        }"
+                                        role="alert"
+                                    >
+                                        <div>
+                                            <strong
+                                                v-if="errors.hasOwnProperty('errors')"
+                                                v-for="error in errors.email"
+                                            >
+                                                {{ error }}}</strong
+                                            >
+                                        </div>
                                     </span>
                                 </div>
                             </div>
@@ -50,8 +80,22 @@
                                         autocomplete="current-password"
                                     />
 
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ message }}</strong>
+                                    <span
+                                        class="invalid-feedback"
+                                        :class="{
+                                            'd-block':
+                                                errors.hasOwnProperty('errors'),
+                                        }"
+                                        role="alert"
+                                    >
+                                        <div>
+                                            <strong
+                                                v-if="errors.hasOwnProperty('errors')"
+                                                v-for="error in errors.errors.password"
+                                            >
+                                                {{ error }}</strong
+                                            >
+                                        </div>
                                     </span>
                                 </div>
                             </div>
@@ -60,6 +104,7 @@
                                 <div class="col-md-6 offset-md-4">
                                     <div class="form-check">
                                         <input
+                                        v-model="form.remember_me"
                                             class="form-check-input"
                                             type="checkbox"
                                             name="remember"
@@ -107,18 +152,20 @@ export default {
             form: {
                 email: "",
                 password: "",
+                remember_me: false,
             },
-            message: "",
+            errors: {},
         };
     },
     methods: {
         submitHandler() {
             this.$store
-                .dispatch("login",{ ...this.form })
-                .then(response =>{
+                .dispatch("login", { ...this.form })
+                .then((response) => {
                     this.$router.push("/");
-                }).catch(err => {
-                    console.log(err.response.data);
+                })
+                .catch((err) => {
+                    this.errors = err.response.data;
                 });
         },
     },

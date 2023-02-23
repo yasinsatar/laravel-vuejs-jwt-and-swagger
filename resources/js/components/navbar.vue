@@ -53,7 +53,7 @@
                             class="dropdown-menu dropdown-menu-end"
                             aria-labelledby="navbarDropdown"
                         >
-                            <a class="dropdown-item" @click="logout">
+                            <a class="dropdown-item cursor-pointer user-select-none" @click="logout" role="button">
                                 Logout
                             </a>
                         </div>

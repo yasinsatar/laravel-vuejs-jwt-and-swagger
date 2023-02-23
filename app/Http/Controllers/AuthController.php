@@ -55,7 +55,7 @@ class AuthController extends Controller
    *       description="Created",
    *      @OA\MediaType(
    *           mediaType="application/json",
-   *      )
+   *      )i
    *   ),
    *)
    **/
