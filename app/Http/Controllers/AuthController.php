@@ -52,16 +52,11 @@ class AuthController extends Controller
    *   ),
    *   @OA\Response(
    *      response=201,
-   *       description="Success",
+   *       description="Created",
    *      @OA\MediaType(
    *           mediaType="application/json",
    *      )
    *   ),
-   *   @OA\Response(
-   *      response=401,
-   *       description="Unauthenticated"
-   *   ),
-
    *)
    **/
   
@@ -103,7 +98,7 @@ class AuthController extends Controller
       'name' => $user->name,
       'token' => $tokenResult->accessToken,
       'token_type' => 'Bearer',
-      'expires_at' => Carbon::parse($tokenResult->token->expires_at)->toDateTimeString()
+      'expires_at' => Carbon::parse($tokenResult->token->expires_at)->timestamp
     ], 201);
   }
 
@@ -140,7 +135,10 @@ class AuthController extends Controller
      *   ),
      *   @OA\Response(
      *      response=401,
-     *       description="Unauthenticated"
+     *       description="Failed or Unauthenticated",
+     *       @OA\MediaType(
+     *           mediaType="application/json",
+     *      )
      *   ),
      *)
      **/
@@ -177,11 +175,37 @@ class AuthController extends Controller
     ], 201);
   }
 
+     /**
+   * @OA\Get(
+   ** path="/api/auth/logout",
+   *   tags={"Logout"},
+     *   summary="Logout",
+     *   operationId="logout",
+     *   description="<strong>* You must Authorize with Bearer Token</strong>",
+     *   security={{"token":{}}},
+     *   @OA\Response(
+     *      response=200,
+     *       description="Success",
+     *      @OA\MediaType(
+     *           mediaType="application/json",
+     *      )
+     *   ),
+     *   @OA\Response(
+     *      response=401,
+     *       description="Unauthenticated",
+     *       @OA\MediaType(
+     *           mediaType="application/json",
+     *      )
+     *   ),
+     *)
+     **/
+
   public function logout(Request $request)
   {
     $request->user()->token()->revoke();
     return response()->json([
-      'message' => 'Logged out'
+      'success'=> true,
+      'message' => 'Logged out.',
     ]);
   }
 
@@ -202,7 +226,10 @@ class AuthController extends Controller
      *   ),
      *   @OA\Response(
      *      response=401,
-     *       description="Unauthenticated"
+     *        description="Unauthenticated",
+     *       @OA\MediaType(
+     *           mediaType="application/json",
+     *      )
      *   ),
      *)
      **/

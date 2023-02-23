@@ -15,9 +15,36 @@ const store = new createStore({
         },
         clearUser(state) {
             state.user = {};
+            localStorage.removeItem("user");
         },
     },
     actions: {
+        initAuth({ commit, dispatch }) {
+            let user = JSON.parse(localStorage.getItem("user"));
+            if (user){
+                let time =  parseInt(new Date().getTime() / 1000);
+                //let time_diff = user.expires_at - time;
+                //console.log(time + ": " + user.expires_at + " : " + time_diff);
+                if (time >= +user.expires_at) {
+                    console.log("Token expired.");
+                    dispatch("logout");
+                } else {
+                    commit("setUser", user);
+                }
+            } else {
+                router.replace("/login");
+                console.log("Unauthenticated.");
+            }
+        },
+        register({ commit, dispatch, state }, authData) {
+            return axios
+                .post("/api/auth/register", {
+                    ...authData
+                })
+                .then((response) => {
+                    commit("setUser", response.data);
+                });
+        },
         login({ commit, dispatch, state }, authData) {
             return axios
                 .post("/api/auth/login", {
@@ -26,6 +53,16 @@ const store = new createStore({
                 })
                 .then((response) => {
                     commit("setUser", response.data);
+                });
+        },
+        logout({ commit, dispatch, state }) {
+            return axios
+                .get("/api/auth/logout",{headers:{"Authorization" : `Bearer ${state.user.token}`}})
+                .then((response) => {
+                    commit("clearUser");
+                }).catch(err=>{
+                    commit("clearUser");
+
                 });
         },
     },

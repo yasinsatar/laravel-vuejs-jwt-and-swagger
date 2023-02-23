@@ -48,13 +48,10 @@
                 ],
                 "responses": {
                     "201": {
-                        "description": "Success",
+                        "description": "Created",
                         "content": {
                             "application/json": {}
                         }
-                    },
-                    "401": {
-                        "description": "Unauthenticated"
                     }
                 }
             }
@@ -92,9 +89,41 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthenticated"
+                        "description": "Failed",
+                        "content": {
+                            "application/json": {}
+                        }
                     }
                 }
+            }
+        },
+        "/api/auth/logout": {
+            "get": {
+                "tags": [
+                    "Logout"
+                ],
+                "summary": "Logout",
+                "description": "<strong>* You must Authorize with Bearer Token</strong>",
+                "operationId": "logout",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Failed or Unauthenticated",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/userDetail": {
@@ -113,7 +142,10 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthenticated"
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {}
+                        }
                     }
                 },
                 "security": [

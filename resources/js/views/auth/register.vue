@@ -129,14 +129,12 @@ export default {
     },
     methods: {
         submitHandler() {
-            axios
-                .post("api/auth/register", { ...this.form })
-                .then((res) => {     
-                    localStorage.setItem("token",res.data.token);
-                    window.location.href = import.meta.env.VITE_APP_URL+'/home';
-                })
-                .catch((err) => {
-                    console.log(err);
+            this.$store
+                .dispatch("register",{ ...this.form })
+                .then(response =>{
+                    this.$router.push("/");
+                }).catch(err => {
+                    console.log(err.response.data);
                 });
         },
     },

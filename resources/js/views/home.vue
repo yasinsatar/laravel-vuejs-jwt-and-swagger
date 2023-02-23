@@ -26,6 +26,18 @@ export default {
             errors: {}
         };
     },
+    created(){
+        if(this.$store.getters.isAuthenticated){
+            this.user = this.$store.getters.getUser;
+            this.isLogin = true;
+        }
+    },
+    updated(){
+        if(this.$store.getters.isAuthenticated){
+            this.user = this.$store.getters.getUser;
+            this.isLogin = true;
+        }
+    }
 }
 </script>
 <style></style>
