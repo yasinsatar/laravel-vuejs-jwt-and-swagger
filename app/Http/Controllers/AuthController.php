@@ -172,7 +172,8 @@ class AuthController extends Controller
       'name' => $user->name,
       'token' => $tokenResult->accessToken,
       'token_type' => 'Bearer',
-      'expires_at' => Carbon::parse($tokenResult->token->expires_at)->toDateTimeString()
+      //'expires_at' => Carbon::parse($tokenResult->token->expires_at)->toDateTimeString()
+      'expires_at' => Carbon::parse($tokenResult->token->expires_at)->timestamp
     ], 201);
   }
 

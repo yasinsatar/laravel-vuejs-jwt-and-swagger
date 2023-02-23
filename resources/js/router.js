@@ -1,6 +1,7 @@
-import { createRouter, createWebHistory  } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 
 
+import store from "./store";
 import Home from "@/views/home.vue"
 import Login from "@/views/auth/login.vue" 
 import Register from "@/views/auth/register.vue" 
@@ -14,7 +15,7 @@ const  router = new createRouter({
             path: "/",
             component: Home,
             beforeEnter(to,from,next){
-                if(/*store.getters.isAuthenticated*/false){
+                if(store.getters.isAuthenticated){
                     next()
                 }else{
                     next("/login")
@@ -24,18 +25,17 @@ const  router = new createRouter({
         {
             path: "/login" , component: Login,
             beforeEnter(to,from,next){
-                if(/*store.getters.isAuthenticated*/false){
+                if(store.getters.isAuthenticated){
                     next("/")
                 }else{
                     next()
                 }
             }
-            
         },
         {
             path: "/register" , component: Register,
             beforeEnter(to,from,next){
-                if(/*store.getters.isAuthenticated*/false){
+                if(store.getters.isAuthenticated){
                     next("/")
                 }else{
                     next()
