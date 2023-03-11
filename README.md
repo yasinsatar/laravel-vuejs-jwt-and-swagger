@@ -7,18 +7,44 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Project
+## Important
+* Bu proje `Laravel 9` ve `php 8.0.2` ile yazılmıştır. Laravell Passport ve bazı gereksinimler için php versiyonu zorunludur.
 
-1. Terminal'i açın ve proje ana klasörüne erişin.
+## Install Project
 
-2. composer update
+* Terminal'i açın ve proje ana klasörüne erişin.
+```
+composer update
+```
+```
+npm install
+```
+* Proje ana klasöründe bulunan **.env.example** dosyasını kopyalayıp **.env** olarak farklı kaydedin ya da direkt ismini değiştirin.
 
-3. npm install
+* **.env** dosyası içinde veri tabanı bağlantısı ayarınızı yapın ve **APP_URL** adresini düzenleyin.
 
-4. Proje ana klasöründe bulunan .env.example dosyasını kopyalayıp .env olarak farklı kaydedin ya da direkt ismini değiştirin.
+* `\vendor\laravel\framework\src\Illuminate\Auth\EloquentUserProvider.php` içerisindeki **validateCredentials** fonksiyonunu aşağıdaki kod ile değiştir.
+```php
+    public function validateCredentials(UserContract $user, array $credentials)
+    {
+        if (is_null($plain = $credentials['password'])) {
+            return false;
+        }
+        return md5($plain) == $user->getAuthPassword();
 
-5. .env dosyası içinde veri tabanı bağlantısı ayarınızı yapın ve APP_URL adresini düzenleyin.
+        //return $this->hasher->check($plain, $user->getAuthPassword());
+    }
+```
+```
+php artisan key:generate
+```
+```
+php artisan migrate
+```
+```
+php artisan passport:install
+```
 
-6. php artisan key:generate
-
-7. npm run dev diyerek tarayıcıda projenizi açın.
+```
+npm run dev
+```
